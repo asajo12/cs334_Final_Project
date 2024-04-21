@@ -1,20 +1,8 @@
-#Step 1: want to preprocess the data 
-    # get rid of missing values if applicable 
-    #categorize numerical and categorical values 
-    # one-hot-encoding or min-max when needed 
-    
-#import argparse
 import pandas as pd
-#import numpy as np
-from sklearn.preprocessing import StandardScaler, MinMaxScaler
 
-def handle_missing_vals(data): #ngl idk if this is the right approach, we could do a diff way but lmk.
-    #handling missing values by dropping those columns
-    columns_dropped = data.columns[data.isna().any()].tolist() #making a list so we can print for testing purposes
-
-    cleaned_data = data.dropna(axis=1) #print to see if the cols are dropped
-    
-    print("COLUMNS DROPPED:", columns_dropped)
+def handle_missing_vals(data):
+    # Filling missing values with zeros
+    cleaned_data = data.fillna(0)
     return cleaned_data
 
 def load_dataset(file):
@@ -26,7 +14,7 @@ def main():
     
     cleaned_data = handle_missing_vals(data) 
     
-    #checking if the data loading step is complete
+    # Checking if the data loading step is complete
     print("-----------------------------------------------------------")
     print("Dataset loaded successfully.")
     print("ORIGINAL DATASET INFORMATION: ")
@@ -39,7 +27,7 @@ def main():
     print("-----------------------------------------------------------")
     
     
-    #checking if the data is cleaned (missing values are dropped)
+    # Checking if the data is cleaned (missing values are filled with zeros)
     print("-----------------------------------------------------------")
     print("CLEANED DATASET INFORMATION:")
     print("Number of rows:", cleaned_data.shape[0])
