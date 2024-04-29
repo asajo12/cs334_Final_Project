@@ -6,6 +6,10 @@ from sklearn.neighbors import KNeighborsClassifier
 from imblearn.pipeline import Pipeline as ImblearnPipeline
 from sklearn.metrics import classification_report, accuracy_score
 
+# for the graph
+import seaborn as sns
+import matplotlib.pyplot as plt
+
 # Load the data
 data = pd.read_csv('Cleaned_Airbnb_Data_Updated.csv', low_memory=False)
 
@@ -57,6 +61,13 @@ best_model = grid_search.best_estimator_
 y_pred = best_model.predict(X_test)
 accuracy = accuracy_score(y_test, y_pred)
 classification_rep = classification_report(y_test, y_pred)
+
+correlation_matrix = X.corr()
+#plot heatmap
+plt.figure(figsize=(12,8))
+sns.heatmap(correlation_matrix, annot = True, cmap="coolwarm", fmt=".2f", cbar=True, square=True)
+plt.title('Correlation Heatmap of Amenities')
+plt.show()
 
 print("Accuracy:", accuracy)
 print("Classification Report:\n", classification_rep)

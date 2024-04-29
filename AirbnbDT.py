@@ -7,6 +7,10 @@ from sklearn.tree import DecisionTreeClassifier
 from imblearn.pipeline import Pipeline as ImblearnPipeline
 from sklearn.metrics import classification_report, accuracy_score
 
+# for the graph
+import seaborn as sns
+import matplotlib.pyplot as plt
+
 data = pd.read_csv('Cleaned_Airbnb_Data_Updated.csv')
 
 # Converting 't'/'f' to 1/0 for boolean columns
@@ -63,6 +67,15 @@ classification_rep = classification_report(y_test, y_pred, zero_division=1)
 print("Best Hyperparameters:", best_params)
 print("Accuracy:", accuracy)
 print("Classification Report:\n", classification_rep)
+
+correlation_matrix = X.corr()
+
+#plot heatmap
+plt.figure(figsize=(12,8))
+sns.heatmap(correlation_matrix, annot = True, cmap="coolwarm", fmt=".2f", cbar=True, square=True)
+plt.title('Correlation Heatmap of Amenities')
+plt.show()
+
 '''
 # Training
 pipeline.fit(X_train, y_train)
