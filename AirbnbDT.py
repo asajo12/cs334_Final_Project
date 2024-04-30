@@ -28,6 +28,9 @@ amenity_features = [col for col in data.columns if 'amenity' in col]  # Example 
 X = data[amenity_features]
 y = data['review_score_category'].astype('category')
 
+#including prices
+X['log_price'] = data['log_price']
+
 # Splitting the dataset 73/27
 X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.27, random_state=42)
 
