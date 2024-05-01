@@ -1,5 +1,6 @@
 import pandas as pd
 from sklearn.preprocessing import MultiLabelBinarizer
+import top10Amenities as top
 
 file_path = 'Airbnb_Data.csv'
 airbnb_data = pd.read_csv(file_path)
@@ -19,7 +20,7 @@ mlb = MultiLabelBinarizer()
 amenities_encoded = mlb.fit_transform(cleaned_data['amenities'])
 amenities_df = pd.DataFrame(amenities_encoded, columns=mlb.classes_, index=cleaned_data.index)
 
-# Adding the encoded amenities back to the main dataframe
+# Adding the encoded amenities back to the main dataframe 
 cleaned_data = pd.concat([cleaned_data.reset_index(drop=True), amenities_df.reset_index(drop=True)], axis=1)
 
 # Removing the original 'amenities' column as it's now encoded
@@ -29,9 +30,12 @@ cleaned_data = cleaned_data.drop('amenities', axis=1)
 bins = [0, 60, 80, 100]
 labels = ['low', 'mid', 'high']
 cleaned_data['review_score_category'] = pd.cut(cleaned_data['review_scores_rating'], bins=bins, labels=labels, include_lowest=True)
+top_amenities  = top.top10amenities (cleaned_data)['Feature'].tolist()
+selected_columns = top_amenities + ['review_score_category', 'log_price']
+cleaned_data = cleaned_data[selected_columns]
 
 # Save the cleaned data to a new CSV file
-cleaned_data.to_csv('Cleaned_Airbnb_Data_Updated.csv', index=False)
+cleaned_data.to_csv('Cleaned_Airbnb_Final.csv', index=False)
 
 # Displaying first few rows
 print(cleaned_data.info())
